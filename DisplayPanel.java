@@ -9,13 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Panel extends JFrame{
+public class DisplayPanel extends JFrame{
 	
 	Random random;
-	
 	GridPanel grid;
 	
-	Panel() {		
+	DisplayPanel() {		
 		
 		random = new Random();
 		
@@ -58,11 +57,8 @@ public class Panel extends JFrame{
         
         randomize.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent ae) {
-        		//int numNodes = Integer.parseInt( size_Field.getText());
-        		//System.out.print(numNodes);
         		grid.plotPoint(random.nextInt(5, 500), random.nextInt(5, 500));	
         	}
         });
-		
 	}
 }

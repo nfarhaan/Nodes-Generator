@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 public class GridPanel extends JPanel{
 
 	private int x, y;
+	private String name;
 	private Graphics2D g2D;
 	
 	public GridPanel() {
@@ -21,6 +22,7 @@ public class GridPanel extends JPanel{
 		//g2D.drawRect(x, y, 5, 5);
 		//g2D.drawOval(x, y, 5, 5);
 		
+		g2D.drawString(name, x, y);
 		
 		g2D.setColor(Color.red);
 		g2D.fillOval(x, y, 10, 10);
