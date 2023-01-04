@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JLabel;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -10,10 +9,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 
-//l1 represents size input
-public class Inputs extends JFrame{
+public class SidePanel extends JFrame{
 
-    public Inputs(){
+    public SidePanel(){
     	
     	JPanel sidePanel = new JPanel();
         sidePanel.setBackground(Color.red);
@@ -59,6 +57,6 @@ public class Inputs extends JFrame{
     }
     
     public static void main(String [] args) {
-    	new Inputs();
+    	new SidePanel();
     }
 }
