@@ -68,6 +68,7 @@ public class DisplayPanel extends JFrame{
         		
         		grid.drawLine(node1, node2);
         		grid.drawLine(node3, node2);
+        		grid.drawLine(node3, node1);
         	}
         });
 	}

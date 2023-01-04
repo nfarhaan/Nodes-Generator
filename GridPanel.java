@@ -33,7 +33,6 @@ public class GridPanel extends JPanel{
 
 		g2D.setFont(new Font("TimesRoman", Font.BOLD, 15));
 		
-		System.out.println(nodes.size());
 		for(int i = 0; i < nodes.size(); i++) {
 			
 			String displayName = nodes.get(i).nodeName + " (" + nodes.get(i).posX + ", "+ nodes.get(i).posY + ")";
