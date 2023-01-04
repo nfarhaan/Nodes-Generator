@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class GridPanel extends JPanel{
 
 	private int x, y;
-	private String name;
+	private String name = "test";
 	private Graphics2D g2D;
 	
 	public GridPanel() {
