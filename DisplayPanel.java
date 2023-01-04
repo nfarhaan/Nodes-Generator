@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -11,15 +13,12 @@ import javax.swing.JTextField;
 
 public class DisplayPanel extends JFrame{
 	
-	Random random;
 	GridPanel grid;
 	
 	DisplayPanel() {		
 		
-		random = new Random();
-		
 		grid = new GridPanel();
-
+		
 		
 		JPanel sidePanel = new JPanel();
         sidePanel.setBackground(Color.red);
@@ -55,21 +54,21 @@ public class DisplayPanel extends JFrame{
         randomize.setBounds(20, 100, 100, 20);
         sidePanel.add(randomize);
         
+        Graph graph = new Graph();
+   
         randomize.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent ae) {
-        		grid.clearGrid();
-        		
-        		Node node1 = new Node("A", random.nextInt(0, 760), random.nextInt(10, 720));
-        		Node node2 = new Node("B", random.nextInt(0, 760), random.nextInt(10, 720));
-        		Node node3 = new Node("C", random.nextInt(0, 760), random.nextInt(10, 720));
-        		grid.plotPoint(node1);	
-        		grid.plotPoint(node2);	
-        		grid.plotPoint(node3);
-        		
-        		grid.drawLine(node1, node2);
-        		grid.drawLine(node3, node2);
-        		grid.drawLine(node3, node1);
-        	}
+            public void actionPerformed(ActionEvent ae) {
+                int numNodes = Integer.parseInt( size_Field.getText());
+                
+                graph.generateNodes(numNodes);
+                
+                grid.clearGrid();
+                grid.plotGraph(graph);
+                
+                for(int i = 0; i < graph.nodes.size() - 1; i++) {
+                	grid.drawLine(graph.nodes.get(i), graph.nodes.get(i + 1));
+                }
+            }
         });
-	}
+    }
 }
