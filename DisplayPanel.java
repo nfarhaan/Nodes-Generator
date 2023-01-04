@@ -61,7 +61,7 @@ public class DisplayPanel extends JFrame{
         		
         		Node node1 = new Node("A", random.nextInt(0, 760), random.nextInt(10, 720));
         		Node node2 = new Node("B", random.nextInt(0, 760), random.nextInt(10, 720));
-        		Node node3 = new Node("B", random.nextInt(0, 760), random.nextInt(10, 720));
+        		Node node3 = new Node("C", random.nextInt(0, 760), random.nextInt(10, 720));
         		grid.plotPoint(node1);	
         		grid.plotPoint(node2);	
         		grid.plotPoint(node3);
