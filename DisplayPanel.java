@@ -57,7 +57,17 @@ public class DisplayPanel extends JFrame{
         
         randomize.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent ae) {
-        		grid.plotPoint(random.nextInt(5, 500), random.nextInt(5, 500));	
+        		grid.clearGrid();
+        		
+        		Node node1 = new Node("A", random.nextInt(0, 760), random.nextInt(10, 720));
+        		Node node2 = new Node("B", random.nextInt(0, 760), random.nextInt(10, 720));
+        		Node node3 = new Node("B", random.nextInt(0, 760), random.nextInt(10, 720));
+        		grid.plotPoint(node1);	
+        		grid.plotPoint(node2);	
+        		grid.plotPoint(node3);
+        		
+        		grid.drawLine(node1, node2);
+        		grid.drawLine(node3, node2);
         	}
         });
 	}
