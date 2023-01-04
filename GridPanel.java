@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -5,19 +6,24 @@ import java.io.Console;
 
 import javax.swing.JPanel;
 
-public class Grid extends JPanel{
+public class GridPanel extends JPanel{
 
 	private int x, y;
 	private Graphics2D g2D;
 	
-	public Grid() {
-		this.setPreferredSize(new Dimension(500, 500));
+	public GridPanel() {
+		this.setPreferredSize(new Dimension(800, 720));
 	}
 	
 	public void paint(Graphics g) {
+		super.paint(g);
 		g2D = (Graphics2D) g;
+		//g2D.drawRect(x, y, 5, 5);
+		//g2D.drawOval(x, y, 5, 5);
 		
-		g2D.drawRect(x, y, 5, 5);
+		
+		g2D.setColor(Color.red);
+		g2D.fillOval(x, y, 10, 10);
 	}
 	
 	public void plotPoint(int _x, int _y) {
