@@ -6,40 +6,42 @@ public class Graph {
 	
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	
-	public void generateNodes(int numNodes, int xLimit, int yLimit) {
+	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
 		nodes.clear();
+		
         Random random = new Random();
-		ArrayList<int[]> row = new ArrayList<int[]>();
+		ArrayList<int[]> usedCoordinates = new ArrayList<int[]>();
 
-        for(int i=0; i<numNodes; i++) {
-            boolean flag= true;
-            boolean found =false;
-            int tempx= random.nextInt(0, xLimit);
-            int tempy= random.nextInt(0, yLimit);
+		for(int i=0; i < numberOfNodes; i++) {
+			boolean flag= true;
+			boolean found = false;
 
-            while(flag==true) {
-             for(int j=0; j<row.size(); j++) {
-                if(row.get(j)[0]== tempx && row.get(j)[1]== tempy) {
-                    found=true;
-                }
-             }
+			int tempX = random.nextInt(0, xLimit);
+			int tempY = random.nextInt(0, yLimit);
+			
+			while(flag==true) {
+				for(int j=0; j < usedCoordinates.size(); j++) {
+					if(usedCoordinates.get(j)[0]== tempX && usedCoordinates.get(j)[1]== tempY) {
+						found=true;
+					}
+				}
 
-               if (found==true) {
-                    tempx= random.nextInt(0, xLimit);
-                    tempy= random.nextInt(0, yLimit);
-                }
-               else {
-	                row.add(new int[]{tempx,tempy});
-	                
-	                Node node = new Node("" + i, tempx, tempy);
-	                nodes.add(node);
-	                
-	                flag = false;
-                }
-            }
-        }
+				if (found==true) {
+					tempX= random.nextInt(0, xLimit);
+					tempY= random.nextInt(0, yLimit);
+				}
+				else {
+					usedCoordinates.add(new int[]{tempX,tempY});
+
+					Node node = new Node("" + i, tempX, tempY);
+					nodes.add(node);
+
+					flag = false;
+				}
+			}
+		}
         
-        showNodes();
+        //showNodes();
     }
 	
 	private void showNodes() {		
