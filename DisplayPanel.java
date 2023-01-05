@@ -76,7 +76,7 @@ public class DisplayPanel extends JFrame{
                 grid.plotGraph(graph);
                 
                 for(int i = 0; i < graph.nodes.size() - 1; i++) {
-                	grid.drawLine(graph.nodes.get(i), graph.nodes.get(i + 1));
+                	//grid.drawLine(graph.nodes.get(i), graph.nodes.get(i + 1));
                 }
             }
         });
