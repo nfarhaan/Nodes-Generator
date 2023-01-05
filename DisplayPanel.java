@@ -73,11 +73,9 @@ public class DisplayPanel extends JFrame{
                 graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder, screenHeight - screenBorder);
                 
                 grid.clearGrid();
-                grid.plotGraph(graph);
                 
-                for(int i = 0; i < graph.nodes.size() - 1; i++) {
-                	//grid.drawLine(graph.nodes.get(i), graph.nodes.get(i + 1));
-                }
+                grid.plotGraph(graph);
+                grid.drawLine(graph);
             }
         });
     }

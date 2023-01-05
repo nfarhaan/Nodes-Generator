@@ -22,6 +22,7 @@ public class GridPanel extends JPanel{
 	}
 	
 	public void paint(Graphics g) {
+		
 		super.paint(g);
 		g2D = (Graphics2D) g;
 		
@@ -56,14 +57,21 @@ public class GridPanel extends JPanel{
 		repaint();
 	}
 	
-	public void drawLine(Node node1, Node node2) {
-		Node[] connection = {node1, node2};
-		nodeConnections.add(connection);
+	
+	public void drawLine(Graph graph) {
+		nodeConnections = graph.nodeConnections;
+		repaint();
 	}
+	
+//	public void drawLine(Node node1, Node node2) {
+//		Node[] connection = {node1, node2};
+//		nodeConnections.add(connection);
+//		repaint(); // remove this is everything breaks
+//	}
+//	
 	
 	public void clearGrid() {
 		nodes.clear();
-		nodeConnections.clear();
 		repaint();
 	}
 	

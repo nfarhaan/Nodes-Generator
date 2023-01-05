@@ -5,6 +5,7 @@ import java.util.Random;
 public class Graph {
 	
 	public ArrayList<Node> nodes = new ArrayList<Node>();
+	public ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 	
 	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
 		nodes.clear();
@@ -41,7 +42,9 @@ public class Graph {
 			}
 		}
         
-        //showNodes();
+        //_showNodes();
+		_linkNodes();
+		System.out.println( "x: " + nodeConnections.size());
     }
 	
 	private String getNodeName(int index) {
@@ -61,7 +64,14 @@ public class Graph {
         return name;
 	}
 	
-	private void showNodes() {		
+	private void _linkNodes() {
+		nodeConnections.clear();
+		for (int i = 0; i < nodes.size() - 1; i++) {
+			nodeConnections.add(new Node[] {nodes.get(i), nodes.get(i + 1)});
+		}
+	}
+	
+	private void _showNodes() {		
 		for (int i=0; i< nodes.size();i++) {
 			System.out.println(nodes.get(i).nodeName + "-" + nodes.get(i).posX +","+ nodes.get(i).posY);
 		}
