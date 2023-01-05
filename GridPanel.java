@@ -17,8 +17,8 @@ public class GridPanel extends JPanel{
 	
 	private Graphics2D g2D;
 	
-	public GridPanel() {
-		this.setPreferredSize(new Dimension(800, 720));
+	public GridPanel(int width, int height) {
+		this.setPreferredSize(new Dimension(width, height));
 	}
 	
 	public void paint(Graphics g) {

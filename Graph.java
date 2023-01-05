@@ -1,14 +1,12 @@
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Graph {
 	
-	int xLimit = 760;
-	int yLimit = 720;
-	
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	
-	public void generateNodes(int numNodes) {
+	public void generateNodes(int numNodes, int xLimit, int yLimit) {
 		nodes.clear();
         Random random = new Random();
 		ArrayList<int[]> row = new ArrayList<int[]>();
@@ -16,8 +14,8 @@ public class Graph {
         for(int i=0; i<numNodes; i++) {
             boolean flag= true;
             boolean found =false;
-            int tempx= random.nextInt(0, 760);
-            int tempy= random.nextInt(0, 760);
+            int tempx= random.nextInt(0, xLimit);
+            int tempy= random.nextInt(0, yLimit);
 
             while(flag==true) {
              for(int j=0; j<row.size(); j++) {
@@ -27,12 +25,11 @@ public class Graph {
              }
 
                if (found==true) {
-                    tempx= random.nextInt(0, 760);
-                    tempy= random.nextInt(0, 760);
+                    tempx= random.nextInt(0, xLimit);
+                    tempy= random.nextInt(0, yLimit);
                 }
                else {
 	                row.add(new int[]{tempx,tempy});
-	                System.out.println(i);
 	                
 	                Node node = new Node("" + i, tempx, tempy);
 	                nodes.add(node);
@@ -42,7 +39,7 @@ public class Graph {
             }
         }
         
-        //showNodes();
+        showNodes();
     }
 	
 	private void showNodes() {		
