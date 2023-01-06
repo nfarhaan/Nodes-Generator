@@ -30,6 +30,7 @@ public class Graph {
 				if (found == true) {
 					tempX = random.nextInt(0, xLimit);
 					tempY = random.nextInt(0, yLimit);
+					found = false;
 				}
 				else {
 					usedCoordinates.add(new int[]{tempX,tempY});
@@ -44,7 +45,6 @@ public class Graph {
         
         //_showNodes();
 		_linkNodes();
-		System.out.println( "x: " + nodeConnections.size());
     }
 	
 	private String getNodeName(int index) {

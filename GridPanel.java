@@ -36,7 +36,7 @@ public class GridPanel extends JPanel{
 		
 		for(int i = 0; i < nodes.size(); i++) {
 			
-			String displayName = nodes.get(i).nodeName + ": (" + nodes.get(i).posX + ", "+ nodes.get(i).posY + ")";
+			String displayName = nodes.get(i).nodeName + " (" + nodes.get(i).posX + ", "+ nodes.get(i).posY + ")";
 			
 			g2D.setColor(Color.red);
 			g2D.fillOval(nodes.get(i).posX, nodes.get(i).posY, 10, 10);			
