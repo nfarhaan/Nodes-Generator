@@ -76,6 +76,8 @@ public class DisplayPanel extends JFrame{
                 
                 grid.plotGraph(graph);
                 grid.drawLine(graph);
+                
+                Algo1.GetShortestPath(graph);
             }
         });
     }
