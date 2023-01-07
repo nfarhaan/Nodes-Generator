@@ -76,14 +76,16 @@ public class DisplayPanel extends JFrame {
                 grid.clearGrid();
 
                 grid.plotGraph(graph);
-                grid.drawLine(graph);
+                //grid.drawLine(graph);
 
                 String shortestPath = "";
+                ArrayList<Node> shortestPathArr = new ArrayList<Node>();
                 // calculate the shortest path passing through all nodes. starting point can be
                 // any node in the list
                 // withouth repeating any node
                 for (int i = 0; i < graph.nodes.size(); i++) {
                     String path = graph.nodes.get(i).nodeName;
+                    ArrayList<Node> pathArr = new ArrayList<Node>();
                     ArrayList<Node> tempNodes = new ArrayList<Node>();
                     tempNodes.addAll(graph.nodes);
                     tempNodes.remove(i);
@@ -100,7 +102,8 @@ public class DisplayPanel extends JFrame {
                                 shortestIndex = j;
                             }
                         }
-
+                        
+                        pathArr.add(tempNodes.get(shortestIndex));
                         path += " -> " + tempNodes.get(shortestIndex).nodeName;
                         // graph.nodes.get(i).posX = tempNodes.get(shortestIndex).posX;
                         // graph.nodes.get(i).posY = tempNodes.get(shortestIndex).posY;
@@ -109,15 +112,22 @@ public class DisplayPanel extends JFrame {
 
                     if (i == 0) {
                         shortestPath = path;
+                        shortestPathArr = pathArr;
                     } else {
                         if (path.length() < shortestPath.length()) {
                             shortestPath = path;
+                            shortestPathArr = pathArr;
                         }
                     }
                 }
 
                 // print the shortest path
                 System.out.println(shortestPath);
+                graph.solvedPath = shortestPathArr;
+                graph._linkNodes();
+                grid.drawLine(graph);
+                
+                graph._showNodes();
             }
         });
 

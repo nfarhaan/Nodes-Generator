@@ -7,6 +7,8 @@ public class Graph {
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	public ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 	
+	public ArrayList<Node> solvedPath = new ArrayList<Node>();
+	
 	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
 		nodes.clear();
 		
@@ -64,15 +66,15 @@ public class Graph {
         return name;
 	}
 	
-	private void _linkNodes() {
+	public void _linkNodes() {
 		nodeConnections.clear();
-		for (int i = 0; i < nodes.size() - 1; i++) {
+		for (int i = 0; i < solvedPath.size() - 1; i++) {
 			nodeConnections.add(new Node[] {nodes.get(i), nodes.get(i + 1)});
 		}
 	}
 	
-	private void _showNodes() {		
-		for (int i=0; i< nodes.size();i++) {
+	public void _showNodes() {		
+		for (int i=0; i< solvedPath.size();i++) {
 			System.out.println(nodes.get(i).nodeName + "-" + nodes.get(i).posX +","+ nodes.get(i).posY);
 		}
 	}
