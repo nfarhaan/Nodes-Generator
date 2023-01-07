@@ -10,6 +10,10 @@ public class Algo1 {
 		permute(graph.nodes, 0);
 	}
 	
+	static void permute2(ArrayList<Node> arr, ArrayList<Node> remaining) {
+		 
+	}
+	
 	static void permute(ArrayList<Node> arr, int k) {
 		 for (int i = k; i < arr.size(); i++) {
 	            Node temp = arr.get(k);
