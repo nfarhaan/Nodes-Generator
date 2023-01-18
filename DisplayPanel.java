@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -77,7 +78,9 @@ public class DisplayPanel extends JFrame{
                 grid.plotGraph(graph);
                 grid.drawLine(graph);
                 
-                Algo1.GetShortestPath(graph);
+                int[] array = new int[11];
+                Arrays.setAll(array, i -> i + 1);
+                Algorithm.permute(graph);
             }
         });
     }
