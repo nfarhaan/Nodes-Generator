@@ -13,7 +13,10 @@ import javax.swing.JPanel;
 public class GridPanel extends JPanel{
 
 	private ArrayList<Node> nodes = new ArrayList<Node>();
+	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
 	private ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
+	
+	private boolean showShortestPath, showAllPath = true;
 	
 	private Graphics2D g2D;
 	
@@ -26,10 +29,21 @@ public class GridPanel extends JPanel{
 		super.paint(g);
 		g2D = (Graphics2D) g;
 		
-		g2D.setStroke(new BasicStroke(2));
-		g2D.setColor(Color.gray);
-		for(int i = 0; i < nodeConnections.size(); i++) {			
-			g2D.drawLine(nodeConnections.get(i)[0].posX + 5, nodeConnections.get(i)[0].posY + 5, nodeConnections.get(i)[1].posX + 5, nodeConnections.get(i)[1].posY + 5);
+
+		if(showAllPath) {			
+			g2D.setStroke(new BasicStroke(1));
+			g2D.setColor(Color.gray);
+			for(int i = 0; i < allPossibleNodeConnections.size(); i++) {			
+				g2D.drawLine(allPossibleNodeConnections.get(i)[0].posX + 5, allPossibleNodeConnections.get(i)[0].posY + 5, allPossibleNodeConnections.get(i)[1].posX + 5, allPossibleNodeConnections.get(i)[1].posY + 5);
+			}
+		}
+		
+		if(showShortestPath) {			
+			g2D.setStroke(new BasicStroke(2));
+			g2D.setColor(Color.red);
+			for(int i = 0; i < nodeConnections.size(); i++) {			
+				g2D.drawLine(nodeConnections.get(i)[0].posX + 5, nodeConnections.get(i)[0].posY + 5, nodeConnections.get(i)[1].posX + 5, nodeConnections.get(i)[1].posY + 5);
+			}
 		}
 
 		g2D.setFont(new Font("TimesRoman", Font.BOLD, 15));
@@ -59,20 +73,25 @@ public class GridPanel extends JPanel{
 	
 	
 	public void drawLine(Graph graph) {
+		allPossibleNodeConnections = graph.allPossibleNodeConnections;
 		nodeConnections = graph.nodeConnections;
 		repaint();
 	}
 	
-//	public void drawLine(Node node1, Node node2) {
-//		Node[] connection = {node1, node2};
-//		nodeConnections.add(connection);
-//		repaint(); // remove this is everything breaks
-//	}
-//	
 	
 	public void clearGrid() {
 		nodes.clear();
 		repaint();
 	}
 	
+	
+	public void setShowShortestPath(boolean status) {
+		showShortestPath = status;
+		repaint();
+	}
+	
+	public void setShowAllPath(boolean status) {
+		showAllPath = status;
+		repaint();
+	}
 }

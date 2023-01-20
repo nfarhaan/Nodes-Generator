@@ -1,14 +1,17 @@
-import java.time.Year;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Graph {
 	
 	public ArrayList<Node> nodes = new ArrayList<Node>();
+	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
 	public ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 	
 	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
 		nodes.clear();
+		nodeConnections.clear();
 		
         Random random = new Random();
 		ArrayList<int[]> usedCoordinates = new ArrayList<int[]>();
@@ -43,8 +46,9 @@ public class Graph {
 			}
 		}
         
+		createAllPossibleLinks();
         //_showNodes();
-		_linkNodes();
+		//_linkNodes();
     }
 	
 	private String getNodeName(int index) {
@@ -62,6 +66,24 @@ public class Graph {
             }
         }
         return name;
+	}
+	
+	public void createAllPossibleLinks() {
+		allPossibleNodeConnections.clear();
+		for (int i = 0; i < nodes.size(); i++) {
+			for (int j = 0; j < nodes.size(); j++) {
+				if(i != j) {
+					allPossibleNodeConnections.add(new Node[] {nodes.get(i), nodes.get(j)});
+				}
+			}
+		}
+	}
+	
+	public void linkNodes(int[] order) {
+		nodeConnections.clear();
+		for (int i = 0; i < order.length - 1; i++) {
+			nodeConnections.add(new Node[] {nodes.get(order[i]), nodes.get(order[i + 1])});
+		}
 	}
 	
 	private void _linkNodes() {

@@ -4,7 +4,8 @@ import java.util.function.IntPredicate;
 
 public class Algorithm {
 	static Graph graph;
-	static int[] shortestPath;
+	public static int[] shortestPath;
+	static double shortestDistance = 99999999;
 	
 	static void swap(int[] indexPool, int i, int j) {
     	int t = indexPool[i];
@@ -38,36 +39,43 @@ public class Algorithm {
     	double d = 0;
     	for (int i = 0; i < order.length - 1; i++) {
     		d += calculateEulerDistance(graph.nodes.get(order[i]).posX, graph.nodes.get(order[i]).posY, graph.nodes.get(order[i + 1]).posX, graph.nodes.get(order[i + 1]).posY);
+    		if(d > shortestDistance) {
+    			return d; // #1 optimization
+    		}
     	}
     	return d;
     }
     
     static void permute(Graph graph) {
+    	shortestDistance = 99999999;
+    	
+    	long startTime = System.currentTimeMillis();
+    	
     	Algorithm.graph = graph;
     	
     	int[] indexPool = new int[graph.nodes.size()];
         Arrays.setAll(indexPool, i -> i);
         
         shortestPath = indexPool;
-        double shortestDistance = 99999999;
         double currentDistance = 0;
     	
         int size = indexPool.length;
 
         boolean isFinished = false;
         while (!isFinished) {
+
         	currentDistance = getPathDistance(indexPool);
-      
+        	
         	if(shortestDistance > currentDistance) {
         		shortestDistance = currentDistance;
         		shortestPath = indexPool.clone();
         	}
         	
-        	for (int i : indexPool) {
-        		System.out.print(i);
-    		}
-        	System.out.println(" - " + currentDistance);
-        	System.out.print("\n");
+//        	for (int i : indexPool) {
+//        		System.out.print(i);
+//    		}
+//        	System.out.println(" - " + currentDistance);
+//        	System.out.print("\n");
         	
             int i;
             for (i = size - 2; i >= 0; --i)
@@ -88,9 +96,14 @@ public class Algorithm {
        
         String s = "";
         for (int k : shortestPath) {
-    		s += k;
+    		s += (char)(k + 65);
 		}
         System.out.println("shortest path: " + s + " with a distance of " + shortestDistance);
+        
+        
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("The time taken to run the program is " + totalTime / 1000.0 + " seconds");
     }
 }
 

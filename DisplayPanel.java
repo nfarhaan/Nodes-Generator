@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,9 +15,11 @@ public class DisplayPanel extends JFrame{
 	
 	private int screenBorder, sidePanelWidth, screenWidth, screenHeight;
 	
+	private JCheckBox displayAllPossiblePath,displayShortestPath;
+	
 	GridPanel grid;
 	
-	DisplayPanel(Dimension screenDimension, int _sidePanelWidth, int border) {		
+	DisplayPanel(Dimension screenDimension, int _sidePanelWidth, int border) {
 		
 		screenBorder = border;
 		sidePanelWidth = _sidePanelWidth;
@@ -65,23 +68,80 @@ public class DisplayPanel extends JFrame{
         solve.setBounds(20, 125, 100, 20);
         sidePanel.add(solve);
         
+        displayAllPossiblePath = new JCheckBox("All paths");
+        displayAllPossiblePath.setSelected(true);
+        displayAllPossiblePath.setBounds(20, 150, 100, 20);
+        sidePanel.add(displayAllPossiblePath);
+        
+        displayShortestPath = new JCheckBox("Shortest Path");
+        displayShortestPath.setSelected(true);
+        displayShortestPath.setBounds(20, 175, 100, 20);
+        sidePanel.add(displayShortestPath);
+        
         Graph graph = new Graph();
+        
+        
+        displayAllPossiblePath.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+            	System.out.println(displayAllPossiblePath.isSelected());
+            	grid.setShowAllPath(displayAllPossiblePath.isSelected());
+            }
+        });
+        
+        displayShortestPath.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+        		grid.setShowShortestPath(displayShortestPath.isSelected());
+            }
+        });
         
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                int numNodes = Integer.parseInt( size_Field.getText());
+                int numNodes = Integer.parseInt(size_Field.getText());
                 
                 graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder, screenHeight - screenBorder);
+                
+                //System.out.println(graph.allPossibleNodeConnections.get(0));
+                
                 
                 grid.clearGrid();
                 
                 grid.plotGraph(graph);
                 grid.drawLine(graph);
                 
-                int[] array = new int[11];
-                Arrays.setAll(array, i -> i + 1);
+                
+                //Algorithm.permute(graph);
+                //graph.linkNodes(Algorithm.shortestPath);
+
+                //grid.drawLine(graph);
+            }
+        });
+        
+        solve.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                //int numNodes = Integer.parseInt(size_Field.getText());
+                
+                //graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder, screenHeight - screenBorder);
+                
+            	displayShortestPath.setSelected(true);
+        		grid.setShowShortestPath(true);
+            	
+                grid.clearGrid();
+                
+                grid.plotGraph(graph);
+                
                 Algorithm.permute(graph);
+                graph.linkNodes(Algorithm.shortestPath);
+
+                grid.drawLine(graph);
             }
         });
     }
+	
+	private void resetCheckboxes() {
+		displayAllPossiblePath.setSelected(true);
+		displayShortestPath.setSelected(true);
+		grid.setShowShortestPath(true);
+		grid.setShowAllPath(true);
+		
+	}
 }
