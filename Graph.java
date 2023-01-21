@@ -14,6 +14,7 @@ public class Graph {
 		nodeConnections.clear();
 		
         Random random = new Random();
+        random.setSeed(666);
 		ArrayList<int[]> usedCoordinates = new ArrayList<int[]>();
 
 		for(int i=0; i < numberOfNodes; i++) {

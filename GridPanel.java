@@ -16,7 +16,7 @@ public class GridPanel extends JPanel{
 	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
 	private ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 	
-	private boolean showShortestPath, showAllPath = true;
+	private boolean showShortestPath, showAllPath, showCoordinates = true;
 	
 	private Graphics2D g2D;
 	
@@ -49,13 +49,14 @@ public class GridPanel extends JPanel{
 		g2D.setFont(new Font("TimesRoman", Font.BOLD, 15));
 		
 		for(int i = 0; i < nodes.size(); i++) {
-			
-			String displayName = nodes.get(i).nodeName + " (" + nodes.get(i).posX + ", "+ nodes.get(i).posY + ")";
+			if(showCoordinates) {
+				String displayName = nodes.get(i).nodeName + " (" + nodes.get(i).posX + ", "+ nodes.get(i).posY + ")";
+				g2D.setColor(Color.blue);
+				g2D.drawString(displayName , nodes.get(i).posX, nodes.get(i).posY + 25);	
+			}
 			
 			g2D.setColor(Color.red);
 			g2D.fillOval(nodes.get(i).posX, nodes.get(i).posY, 10, 10);			
-			g2D.setColor(Color.blue);
-			g2D.drawString(displayName , nodes.get(i).posX, nodes.get(i).posY + 25);
 		}
 		
 	}
@@ -92,6 +93,11 @@ public class GridPanel extends JPanel{
 	
 	public void setShowAllPath(boolean status) {
 		showAllPath = status;
+		repaint();
+	}
+	
+	public void setShowCoordinates(boolean status) {
+		showCoordinates = status;
 		repaint();
 	}
 }
