@@ -55,22 +55,22 @@ public class DisplayPanel extends JFrame {
         
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(color);
-        sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight - 300);
+        sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight);
         this.add(sidePanel);
 
         
-        JFrame underSidePanel = new JFrame();
+        //JFrame underSidePanel = new JFrame();
         //underSidePanel.setBackground(color);
         //underSidePanel.setBounds(screenWidth - sidePanelWidth, screenHeight - 300, screenWidth, 300);
         
-        underSidePanel.setTitle("Shortest Path Finder");
-
-        underSidePanel.setSize(screenWidth, screenHeight);
-        underSidePanel.setResizable(false);
-        underSidePanel.setLayout(null);
-        underSidePanel.setVisible(true);
-        underSidePanel.setLocationRelativeTo(null);
-        underSidePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        underSidePanel.setTitle("Shortest Path Finder");
+//
+//        underSidePanel.setSize(screenWidth, screenHeight);
+//        underSidePanel.setResizable(false);
+//        underSidePanel.setLayout(null);
+//        underSidePanel.setVisible(true);
+//        underSidePanel.setLocationRelativeTo(null);
+//        underSidePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //this.add(underSidePanel);
 
 //        JPanel gridJPanel = new JPanel();
@@ -130,14 +130,14 @@ public class DisplayPanel extends JFrame {
         sidePanel.add(shortestPathTitle);
         
         distanceDisplay = new JLabel("DISTANCE: 3432.43"); // ONLY 33 CHAR PER LINE
-        distanceDisplay.setBounds(20, 0, 300, 20);
+        distanceDisplay.setBounds(20, 300, 300, 20);
         distanceDisplay.setFont(normalFont);
-        underSidePanel.add(distanceDisplay);
+        sidePanel.add(distanceDisplay);
         
         shortestPathListDisplay = new JLabel("PATH: A B C D E F G H I J K L M N O P Q"); // ONLY 33 CHAR PER LINE
-        shortestPathListDisplay.setBounds(20, 0, 300, 60);
+        shortestPathListDisplay.setBounds(20, 310, 300, 60);
         shortestPathListDisplay.setFont(normalFont);
-        underSidePanel.add(shortestPathListDisplay);
+        sidePanel.add(shortestPathListDisplay);
         
         Graph graph = new Graph();
 
