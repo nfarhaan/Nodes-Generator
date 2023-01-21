@@ -48,16 +48,6 @@ public class Algorithm {
 	static double getPathDistance(int[] order) {
 		double d = 0;
 
-		ArrayList<Integer> green = new ArrayList<Integer>();
-		ArrayList<Integer> remaining = new ArrayList<Integer>();
-
-		green.clear();
-		remaining.clear();
-
-		int toIterate = -1;
-
-		green.add(order[0]);
-
 		for (int i = 0; i < order.length - 1; i++) {
 
 			// System.out.print(order[i]);
@@ -65,97 +55,8 @@ public class Algorithm {
 			d += calculateEulerDistance(graph.nodes.get(order[i]).posX, graph.nodes.get(order[i]).posY,
 					graph.nodes.get(order[i + 1]).posX, graph.nodes.get(order[i + 1]).posY);
 			if (d > shortestDistance) {
-				// System.out.println(order[i + 1]);
-				toIterate = order[i + 1];
-
-				for (int j = i + 2; j < order.length; j++) {
-					remaining.add(order[j]);
-				}
-
-				remaining.add(toIterate);
-
-				if (remaining.size() > 2) {
-					hasSkiped = true;
-
-					toIterate++;
-					while (green.contains(toIterate)) {
-						toIterate++;
-					}
-
-					int mainCount = 0;
-					if (toIterate > order.length - 1) {
-
-						int g = -1;
-						while (true) {
-							// need to check if we are changing the 1st index and if yes, check if it is not
-							// the max. if max then end.
-							// if(gIndex == 0)
-							if (green.size() == 1 && mainCount >= 1) {
-								if (green.get(0) == order.length - 1) {
-									System.out.println("all done");
-
-									isFinished = true;
-									return 9999999;
-									// return someting to end the thing
-								}
-							}
-
-							mainCount++;
-
-							g = green.get(green.size() - 1);
-
-							remaining.add(g);
-							green.remove(Integer.valueOf(g));
-
-							int gIncremented = g + 1;
-
-							boolean found = true;
-							while (!remaining.contains(gIncremented)) {
-								gIncremented++;
-								if (gIncremented > order.length - 1) {
-									// means that this current element cannot be incremented
-									// add the value to remaining and continue searching with the previous element
-									found = false;
-									break;
-								}
-							}
-
-							if (found) {
-								toIterate = gIncremented;
-								break;
-							}
-						}
-						// green.set(green.size() - 1, )
-						// to swap place of latest green value and add the previous value in remaing
-					}
-
-					// sort the remaning array list. // to do!!
-					// rearranging the array [green, toIterate, remaining]
-
-					// green.remove(green.size() - 1);
-					for (int h = 0; h < green.size(); h++) {
-						indexPool[h] = green.get(h);
-					}
-
-					indexPool[green.size()] = toIterate;
-
-					// to re order remaining
-
-					remaining.remove(Integer.valueOf(toIterate));
-					Collections.sort(remaining);
-
-					// System.out.println(green.toString());
-					// System.out.println(remaining.toString());
-					// System.out.println(toIterate);
-
-					for (int z = 0; z < remaining.size(); z++) {
-						indexPool[green.size() + 1 + z] = remaining.get(z);
-					}
-				}
 
 				return d; // #1 optimization
-			} else {
-				green.add(order[i + 1]);
 			}
 		}
 		// System.out.println(order[order.length - 1]);
