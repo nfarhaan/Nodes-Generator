@@ -1,23 +1,30 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.StyledEditorKit.UnderlineAction;
 
 public class DisplayPanel extends JFrame {
 
     private int screenBorder, sidePanelWidth, screenWidth, screenHeight;
 
     private JCheckBox displayAllPossiblePath, displayShortestPath, displayCoordinates;
-
+    private JLabel shortestPathListDisplay, distanceDisplay;
+    
     GridPanel grid;
 
     DisplayPanel(Dimension screenDimension, int _sidePanelWidth, int border) {
@@ -29,6 +36,7 @@ public class DisplayPanel extends JFrame {
         screenHeight = screenDimension.height;
 
         Font titleFont = new Font("SANS_SERIF", Font.BOLD, 15);
+        Font normalFont = new Font("SANS_SERIF", Font.PLAIN, 15);
         Color color = Color.white;
 
         grid = new GridPanel(screenWidth - sidePanelWidth, screenHeight);
@@ -42,16 +50,34 @@ public class DisplayPanel extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        grid.setBounds(0, 0, screenWidth - sidePanelWidth, screenHeight);
+        this.add(grid);
+        
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(color);
-        sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight);
+        sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight - 300);
         this.add(sidePanel);
 
-        JPanel gridJPanel = new JPanel();
-        gridJPanel.setBackground(color);
-        gridJPanel.setBounds(0, 0, screenWidth - sidePanelWidth, screenHeight);
-        this.add(gridJPanel);
-        gridJPanel.add(grid);
+        
+        JFrame underSidePanel = new JFrame();
+        //underSidePanel.setBackground(color);
+        //underSidePanel.setBounds(screenWidth - sidePanelWidth, screenHeight - 300, screenWidth, 300);
+        
+        underSidePanel.setTitle("Shortest Path Finder");
+
+        underSidePanel.setSize(screenWidth, screenHeight);
+        underSidePanel.setResizable(false);
+        underSidePanel.setLayout(null);
+        underSidePanel.setVisible(true);
+        underSidePanel.setLocationRelativeTo(null);
+        underSidePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.add(underSidePanel);
+
+//        JPanel gridJPanel = new JPanel();
+//        gridJPanel.setBackground(color);
+//        gridJPanel.setBounds(0, 0, screenWidth - sidePanelWidth, screenHeight);
+        //this.add(gridJPanel);
+        //gridJPanel.add(grid);
 
         JLabel size = new JLabel("Number of Nodes");
         size.setBounds(20, 10, 200, 20);
@@ -102,15 +128,21 @@ public class DisplayPanel extends JFrame {
         shortestPathTitle.setBounds(20, 255, 200, 20);
         shortestPathTitle.setFont(titleFont);
         sidePanel.add(shortestPathTitle);
-
-        JLabel shortestPathList = new JLabel("Not yet generated");
-        shortestPathList.setBounds(20, 280, 200, 20);
-        shortestPathList.setFont(titleFont);
-        sidePanel.add(shortestPathList);
-
+        
+        distanceDisplay = new JLabel("DISTANCE: 3432.43"); // ONLY 33 CHAR PER LINE
+        distanceDisplay.setBounds(20, 0, 300, 20);
+        distanceDisplay.setFont(normalFont);
+        underSidePanel.add(distanceDisplay);
+        
+        shortestPathListDisplay = new JLabel("PATH: A B C D E F G H I J K L M N O P Q"); // ONLY 33 CHAR PER LINE
+        shortestPathListDisplay.setBounds(20, 0, 300, 60);
+        shortestPathListDisplay.setFont(normalFont);
+        underSidePanel.add(shortestPathListDisplay);
+        
         Graph graph = new Graph();
 
         resetCheckboxes();
+        sidePanel.repaint();
 
         displayAllPossiblePath.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -167,6 +199,14 @@ public class DisplayPanel extends JFrame {
                 graph.linkNodes(Algorithm.shortestPath);
 
                 grid.drawLine(graph);
+                
+                // display path + distance
+                shortestPathListDisplay.setText("DISTANCE: " );
+                String sp = graph.nodeConnections.get(0)[0].nodeName;
+                for (int i = 0; i < graph.nodeConnections.size(); i++) {
+                	sp += graph.nodeConnections.get(i)[1].nodeName;
+                }
+                shortestPathListDisplay.setText("PATH: " + sp);
             }
         });
     }

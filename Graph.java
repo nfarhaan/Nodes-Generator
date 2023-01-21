@@ -7,6 +7,7 @@ public class Graph {
 
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
+	
 	public ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 
 	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
