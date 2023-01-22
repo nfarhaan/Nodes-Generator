@@ -4,9 +4,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import javax.management.loading.PrivateClassLoader;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -22,6 +25,8 @@ public class DisplayPanel extends JFrame {
 
     private int screenBorder, sidePanelWidth, screenWidth, screenHeight;
 
+    private JTextField size_Field;
+    private JButton solve, randomize;
     private JCheckBox displayAllPossiblePath, displayShortestPath, displayCoordinates;
     private JLabel shortestPathListDisplay, distanceDisplay, timeDisplay;
     
@@ -57,32 +62,13 @@ public class DisplayPanel extends JFrame {
         sidePanel.setBackground(color);
         sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight);
         this.add(sidePanel);        
-        //JFrame underSidePanel = new JFrame();
-        //underSidePanel.setBackground(color);
-        //underSidePanel.setBounds(screenWidth - sidePanelWidth, screenHeight - 300, screenWidth, 300);
-        
-//        underSidePanel.setTitle("Shortest Path Finder");
-//
-//        underSidePanel.setSize(screenWidth, screenHeight);
-//        underSidePanel.setResizable(false);
-//        underSidePanel.setLayout(null);
-//        underSidePanel.setVisible(true);
-//        underSidePanel.setLocationRelativeTo(null);
-//        underSidePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //this.add(underSidePanel);
-
-//        JPanel gridJPanel = new JPanel();
-//        gridJPanel.setBackground(color);
-//        gridJPanel.setBounds(0, 0, screenWidth - sidePanelWidth, screenHeight);
-        //this.add(gridJPanel);
-        //gridJPanel.add(grid);
 
         JLabel size = new JLabel("Number of Nodes");
         size.setBounds(20, 10, 200, 20);
         size.setFont(titleFont);
         sidePanel.add(size);
 
-        JTextField size_Field = new JTextField("6");
+        size_Field = new JTextField("6");
         size_Field.setBounds(20, 35, 50, 20);
         sidePanel.add(size_Field);
 
@@ -114,11 +100,11 @@ public class DisplayPanel extends JFrame {
         controls.setFont(titleFont);
         sidePanel.add(controls);
 
-        JButton randomize = new JButton("Randomize");
+        randomize = new JButton("Randomize");
         randomize.setBounds(20, 210, 100, 20);
         sidePanel.add(randomize);
 
-        JButton solve = new JButton("Solve");
+        solve = new JButton("Solve");
         solve.setBounds(130, 210, 100, 20);
         sidePanel.add(solve);
 
@@ -127,17 +113,17 @@ public class DisplayPanel extends JFrame {
         shortestPathTitle.setFont(titleFont);
         sidePanel.add(shortestPathTitle);
         
-        distanceDisplay = new JLabel("DISTANCE: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        distanceDisplay = new JLabel("DISTANCE: NOT YET COMPUTED");
         distanceDisplay.setBounds(20, 280, 300, 20);
         distanceDisplay.setFont(normalFont);
         sidePanel.add(distanceDisplay);
         
-        timeDisplay = new JLabel("TIME TAKEN: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        timeDisplay = new JLabel("TIME TAKEN: NOT YET COMPUTED");
         timeDisplay.setBounds(20, 300, 300, 20);
         timeDisplay.setFont(normalFont);
         sidePanel.add(timeDisplay);
         
-        shortestPathListDisplay = new JLabel("PATH: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        shortestPathListDisplay = new JLabel("PATH: NOT YET COMPUTED");
         shortestPathListDisplay.setBounds(20, 300, 300, 60);
         shortestPathListDisplay.setFont(normalFont);
         sidePanel.add(shortestPathListDisplay);
@@ -168,7 +154,7 @@ public class DisplayPanel extends JFrame {
 
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                int numNodes = Integer.parseInt(size_Field.getText());
+            	int numNodes = Integer.parseInt(size_Field.getText());
 
                 graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder, screenHeight - screenBorder);
 
@@ -176,37 +162,24 @@ public class DisplayPanel extends JFrame {
 
                 grid.plotGraph(graph);
                 grid.drawLine(graph);
-
-                
-                //sidePanel.removeAll();
-                
-                // Algorithm.permute(graph);
-                // graph.linkNodes(Algorithm.shortestPath);
-
-                // grid.drawLine(graph);
             }
         });
-
-        solve.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                // int numNodes = Integer.parseInt(size_Field.getText());
-
-                // graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder,
-                // screenHeight - screenBorder);
-
-                displayShortestPath.setSelected(true);
-                grid.setShowShortestPath(true);
-
-                grid.clearGrid();
-
-                grid.plotGraph(graph);
-
+        
+        solve.addMouseListener(new MouseAdapter() {
+        	
+        	public void mousePressed(MouseEvent e) {
+        		displayShortestPath.setSelected(true);
+        		grid.setShowShortestPath(true);
+        		toggleInputs(false);
+        	}
+        	
+        	public void mouseReleased(MouseEvent e) {  
+        		grid.clearGrid();
+        		grid.plotGraph(graph);
                 Algorithm.permute(graph);
                 graph.linkNodes(Algorithm.shortestPath);
-
-                grid.drawLine(graph);
                 
-                // display path + distance
+                grid.drawLine(graph);
                 
                 String shortestDistance = "DISTANCE: " + Math.round(Algorithm.shortestDistance * 100.0) / 100.0;
                 String timeTaken = "TIME TAKEN: " + Algorithm.timeTaken + " S";
@@ -228,15 +201,25 @@ public class DisplayPanel extends JFrame {
                 sidePanel.add(timeDisplay);
                 
                 sidePanel.repaint();
-            }
+                toggleInputs(true);
+            }  
         });
     }
 
     private JLabel setText(JLabel label, String text, Font font) {
-    	JLabel tempLabel = new JLabel(text); // ONLY 33 CHAR PER LINE
+    	JLabel tempLabel = new JLabel(text);
     	tempLabel.setBounds(label.getBounds());
     	tempLabel.setFont(font);
         return tempLabel;
+    }
+    
+    private void toggleInputs(boolean status) {
+    	size_Field.setEnabled(status);
+        solve.setEnabled(status);
+        randomize.setEnabled(status);
+        displayAllPossiblePath.setEnabled(status);
+        displayShortestPath.setEnabled(status);
+        displayCoordinates.setEnabled(status);
     }
     
     private void resetCheckboxes() {
