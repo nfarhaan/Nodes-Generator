@@ -11,7 +11,8 @@ public class Algorithm {
 	static Graph graph;
 	public static int[] shortestPath;
 	static double shortestDistance = 99999999;
-
+	static double timeTaken = 0;
+	
 	static int[] indexPool;
 	static boolean hasSkiped = false;
 
@@ -221,6 +222,8 @@ public class Algorithm {
 
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("The time taken to run the program is " + totalTime / 1000.0 + " seconds");
+		timeTaken = totalTime / 1000.0;
+		
+		System.out.println("The time taken to run the program is " + timeTaken + " seconds");
 	}
 }

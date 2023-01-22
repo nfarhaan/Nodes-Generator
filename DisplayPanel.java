@@ -23,7 +23,7 @@ public class DisplayPanel extends JFrame {
     private int screenBorder, sidePanelWidth, screenWidth, screenHeight;
 
     private JCheckBox displayAllPossiblePath, displayShortestPath, displayCoordinates;
-    private JLabel shortestPathListDisplay, distanceDisplay;
+    private JLabel shortestPathListDisplay, distanceDisplay, timeDisplay;
     
     GridPanel grid;
 
@@ -56,9 +56,7 @@ public class DisplayPanel extends JFrame {
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(color);
         sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight);
-        this.add(sidePanel);
-
-        
+        this.add(sidePanel);        
         //JFrame underSidePanel = new JFrame();
         //underSidePanel.setBackground(color);
         //underSidePanel.setBounds(screenWidth - sidePanelWidth, screenHeight - 300, screenWidth, 300);
@@ -129,13 +127,18 @@ public class DisplayPanel extends JFrame {
         shortestPathTitle.setFont(titleFont);
         sidePanel.add(shortestPathTitle);
         
-        distanceDisplay = new JLabel("DISTANCE: 3432.43"); // ONLY 33 CHAR PER LINE
-        distanceDisplay.setBounds(20, 300, 300, 20);
+        distanceDisplay = new JLabel("DISTANCE: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        distanceDisplay.setBounds(20, 280, 300, 20);
         distanceDisplay.setFont(normalFont);
         sidePanel.add(distanceDisplay);
         
-        shortestPathListDisplay = new JLabel("PATH: A B C D E F G H I J K L M N O P Q"); // ONLY 33 CHAR PER LINE
-        shortestPathListDisplay.setBounds(20, 310, 300, 60);
+        timeDisplay = new JLabel("TIME TAKEN: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        timeDisplay.setBounds(20, 300, 300, 20);
+        timeDisplay.setFont(normalFont);
+        sidePanel.add(timeDisplay);
+        
+        shortestPathListDisplay = new JLabel("PATH: NOT YET COMPUTED"); // ONLY 33 CHAR PER LINE
+        shortestPathListDisplay.setBounds(20, 300, 300, 60);
         shortestPathListDisplay.setFont(normalFont);
         sidePanel.add(shortestPathListDisplay);
         
@@ -174,6 +177,9 @@ public class DisplayPanel extends JFrame {
                 grid.plotGraph(graph);
                 grid.drawLine(graph);
 
+                
+                //sidePanel.removeAll();
+                
                 // Algorithm.permute(graph);
                 // graph.linkNodes(Algorithm.shortestPath);
 
@@ -201,16 +207,38 @@ public class DisplayPanel extends JFrame {
                 grid.drawLine(graph);
                 
                 // display path + distance
-                shortestPathListDisplay.setText("DISTANCE: " );
-                String sp = graph.nodeConnections.get(0)[0].nodeName;
+                
+                String shortestDistance = "DISTANCE: " + Math.round(Algorithm.shortestDistance * 100.0) / 100.0;
+                String timeTaken = "TIME TAKEN: " + Algorithm.timeTaken + " S";
+                String shortestPath = "PATH: " + graph.nodeConnections.get(0)[0].nodeName;
                 for (int i = 0; i < graph.nodeConnections.size(); i++) {
-                	sp += graph.nodeConnections.get(i)[1].nodeName;
+                	shortestPath += " " + graph.nodeConnections.get(i)[1].nodeName;
                 }
-                shortestPathListDisplay.setText("PATH: " + sp);
+                
+                sidePanel.remove(distanceDisplay);
+                sidePanel.remove(shortestPathListDisplay);
+                sidePanel.remove(timeDisplay);
+                
+                distanceDisplay = setText(distanceDisplay, shortestDistance, normalFont);
+                shortestPathListDisplay = setText(shortestPathListDisplay, shortestPath, normalFont);
+                timeDisplay = setText(timeDisplay, timeTaken, normalFont);
+                
+                sidePanel.add(distanceDisplay);
+                sidePanel.add(shortestPathListDisplay);
+                sidePanel.add(timeDisplay);
+                
+                sidePanel.repaint();
             }
         });
     }
 
+    private JLabel setText(JLabel label, String text, Font font) {
+    	JLabel tempLabel = new JLabel(text); // ONLY 33 CHAR PER LINE
+    	tempLabel.setBounds(label.getBounds());
+    	tempLabel.setFont(font);
+        return tempLabel;
+    }
+    
     private void resetCheckboxes() {
         displayAllPossiblePath.setSelected(true);
         displayShortestPath.setSelected(true);
