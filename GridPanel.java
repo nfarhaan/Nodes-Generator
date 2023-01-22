@@ -16,20 +16,16 @@ public class GridPanel extends JPanel{
 	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
 	private ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
 	
-	private boolean showShortestPath, showAllPath, showCoordinates, showLiveUpdates = true;
-	private boolean liveUpdateMode = false;
-	
-	private Graphics2D g2D;
+	private boolean showShortestPath, showAllPath, showCoordinates;
 	
 	public GridPanel(int width, int height) {
 		this.setPreferredSize(new Dimension(width, height));
 	}
-	
 
 	public void paint(Graphics g) {
 		
 		super.paint(g);
-		g2D = (Graphics2D) g;
+		Graphics2D g2D = (Graphics2D) g;
 		
 
 		if(showAllPath) {			
@@ -60,8 +56,6 @@ public class GridPanel extends JPanel{
 			g2D.setColor(Color.red);
 			g2D.fillOval(nodes.get(i).posX, nodes.get(i).posY, 10, 10);			
 		}
-		
-		//super.paint(g);
 	}
 	
 	public void plotGraph(Graph graph) {
@@ -78,16 +72,14 @@ public class GridPanel extends JPanel{
 	
 	public void drawLine(Graph graph) {
 		allPossibleNodeConnections = graph.allPossibleNodeConnections;
-		nodeConnections = graph.nodeConnections;
+		nodeConnections = graph.shortestNodeConnection;
 		repaint();
 	}
-	
 	
 	public void clearGrid() {
 		nodes.clear();
 		repaint();
 	}
-	
 	
 	public void setShowShortestPath(boolean status) {
 		showShortestPath = status;
@@ -102,13 +94,5 @@ public class GridPanel extends JPanel{
 	public void setShowCoordinates(boolean status) {
 		showCoordinates = status;
 		repaint();
-	}
-	
-	public void setShowLiveUpdates(boolean status) {
-			
-	}
-	
-	public void setLiveUpdateMode(boolean status) {
-		liveUpdateMode = status;
 	}
 }

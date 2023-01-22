@@ -1,25 +1,17 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.Iterator;
 
-import javax.management.loading.PrivateClassLoader;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.text.StyledEditorKit.UnderlineAction;
 
 public class DisplayPanel extends JFrame {
 
@@ -130,9 +122,6 @@ public class DisplayPanel extends JFrame {
         
         Graph graph = new Graph();
 
-        resetCheckboxes();
-        sidePanel.repaint();
-
         displayAllPossiblePath.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 System.out.println(displayAllPossiblePath.isSelected());
@@ -166,7 +155,6 @@ public class DisplayPanel extends JFrame {
         });
         
         solve.addMouseListener(new MouseAdapter() {
-        	
         	public void mousePressed(MouseEvent e) {
         		displayShortestPath.setSelected(true);
         		grid.setShowShortestPath(true);
@@ -183,9 +171,9 @@ public class DisplayPanel extends JFrame {
                 
                 String shortestDistance = "DISTANCE: " + Math.round(Algorithm.shortestDistance * 100.0) / 100.0;
                 String timeTaken = "TIME TAKEN: " + Algorithm.timeTaken + " S";
-                String shortestPath = "PATH: " + graph.nodeConnections.get(0)[0].nodeName;
-                for (int i = 0; i < graph.nodeConnections.size(); i++) {
-                	shortestPath += " " + graph.nodeConnections.get(i)[1].nodeName;
+                String shortestPath = "PATH: " + graph.shortestNodeConnection.get(0)[0].nodeName;
+                for (int i = 0; i < graph.shortestNodeConnection.size(); i++) {
+                	shortestPath += " " + graph.shortestNodeConnection.get(i)[1].nodeName;
                 }
                 
                 sidePanel.remove(distanceDisplay);
@@ -204,8 +192,12 @@ public class DisplayPanel extends JFrame {
                 toggleInputs(true);
             }  
         });
+        
+        resetCheckboxes();
+        randomize.doClick();
+        sidePanel.repaint();
     }
-
+    
     private JLabel setText(JLabel label, String text, Font font) {
     	JLabel tempLabel = new JLabel(text);
     	tempLabel.setBounds(label.getBounds());
@@ -230,6 +222,5 @@ public class DisplayPanel extends JFrame {
         grid.setShowShortestPath(true);
         grid.setShowAllPath(true);
         grid.setShowCoordinates(true);
-
     }
 }

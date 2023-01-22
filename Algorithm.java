@@ -3,23 +3,21 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Algorithm {
-	static Graph graph;
 	public static int[] shortestPath;
-	static double shortestDistance = 99999999;
-	static double timeTaken = 0;
+	public static double shortestDistance = 99999999;
+	public static double timeTaken = 0;
 	
-	static int[] indexPool;
-	static boolean hasSkiped = false;
+	private static Graph graph;
+	private static int[] indexPool;
+	private static boolean hasSkiped, isFinished = false;
 
-	static boolean isFinished = false;
-
-	static void swap(int[] indexPool, int i, int j) {
+	private static void swap(int[] indexPool, int i, int j) {
 		int t = indexPool[i];
 		indexPool[i] = indexPool[j];
 		indexPool[j] = t;
 	}
 
-	static void reverse(int indexPool[], int l, int h) {
+	private static void reverse(int indexPool[], int l, int h) {
 		while (l < h) {
 			swap(indexPool, l, h);
 			l++;
@@ -42,26 +40,23 @@ public class Algorithm {
 	}
 
 	static double getPathDistance(int[] order) {
-		double d = 0;
+		double distance = 0;
 
-		ArrayList<Integer> green = new ArrayList<Integer>();
+		ArrayList<Integer> used = new ArrayList<Integer>();
 		ArrayList<Integer> remaining = new ArrayList<Integer>();
 
-		green.clear();
+		used.clear();
 		remaining.clear();
 
 		int toIterate = -1;
 
-		green.add(order[0]);
+		used.add(order[0]);
 
 		for (int i = 0; i < order.length - 1; i++) {
 
-			// System.out.print(order[i]);
-			// green.add(order[i + 1]);
-			d += calculateEulerDistance(graph.nodes.get(order[i]).posX, graph.nodes.get(order[i]).posY,
+			distance += calculateEulerDistance(graph.nodes.get(order[i]).posX, graph.nodes.get(order[i]).posY,
 					graph.nodes.get(order[i + 1]).posX, graph.nodes.get(order[i + 1]).posY);
-			if (d > shortestDistance) {
-				// System.out.println(order[i + 1]);
+			if (distance > shortestDistance) {
 				toIterate = order[i + 1];
 
 				for (int j = i + 2; j < order.length; j++) {
@@ -74,90 +69,69 @@ public class Algorithm {
 					hasSkiped = true;
 
 					toIterate++;
-					while (green.contains(toIterate)) {
+					while (used.contains(toIterate)) {
 						toIterate++;
 					}
 
 					int mainCount = 0;
 					if (toIterate > order.length - 1) {
 
-						int g = -1;
+						int usedLastElement = -1;
 						while (true) {
-							// need to check if we are changing the 1st index and if yes, check if it is not
-							// the max. if max then end.
-							// if(gIndex == 0)
-							if (green.size() == 1 && mainCount >= 1) {
-								if (green.get(0) == order.length - 1) {
-									System.out.println("all done");
-
+							if (used.size() == 1 && mainCount >= 1) {
+								if (used.get(0) == order.length - 1) {
 									isFinished = true;
 									return 9999999;
-									// return someting to end the thing
 								}
 							}
 
 							mainCount++;
 
-							g = green.get(green.size() - 1);
+							usedLastElement = used.get(used.size() - 1);
 
-							remaining.add(g);
-							green.remove(Integer.valueOf(g));
+							remaining.add(usedLastElement);
+							used.remove(Integer.valueOf(usedLastElement));
 
-							int gIncremented = g + 1;
+							int newToIterate = usedLastElement + 1;
 
 							boolean found = true;
-							while (!remaining.contains(gIncremented)) {
-								gIncremented++;
-								if (gIncremented > order.length - 1) {
-									// means that this current element cannot be incremented
-									// add the value to remaining and continue searching with the previous element
+							while (!remaining.contains(newToIterate)) {
+								newToIterate++;
+								if (newToIterate > order.length - 1) {
 									found = false;
 									break;
 								}
 							}
 
 							if (found) {
-								toIterate = gIncremented;
+								toIterate = newToIterate;
 								break;
 							}
 						}
-						// green.set(green.size() - 1, )
-						// to swap place of latest green value and add the previous value in remaing
 					}
 
-					// sort the remaning array list. // to do!!
-					// rearranging the array [green, toIterate, remaining]
-
-					// green.remove(green.size() - 1);
-					for (int h = 0; h < green.size(); h++) {
-						indexPool[h] = green.get(h);
+					for (int h = 0; h < used.size(); h++) {
+						indexPool[h] = used.get(h);
 					}
 
-					indexPool[green.size()] = toIterate;
-
-					// to re order remaining
+					indexPool[used.size()] = toIterate;
 
 					remaining.remove(Integer.valueOf(toIterate));
 					Collections.sort(remaining);
 
-					// System.out.println(green.toString());
-					// System.out.println(remaining.toString());
-					// System.out.println(toIterate);
-
 					for (int z = 0; z < remaining.size(); z++) {
-						indexPool[green.size() + 1 + z] = remaining.get(z);
+						indexPool[used.size() + 1 + z] = remaining.get(z);
 					}
 				}
 
-				return d; // #1 optimization
+				return distance;
 			} else {
-				green.add(order[i + 1]);
+				used.add(order[i + 1]);
 			}
 		}
-		// System.out.println(order[order.length - 1]);
-		return d;
+		return distance;
 	}
-
+	
 	static void permute(Graph graph) {
 		shortestDistance = 99999999;
 
@@ -178,12 +152,6 @@ public class Algorithm {
 
 			hasSkiped = false;
 			currentDistance = getPathDistance(indexPool);
-
-			// for (int i : indexPool) {
-			// System.out.print(i);
-			// }
-			// System.out.println(" - " + currentDistance);
-			// System.out.print("\n");
 
 			if (!hasSkiped) {
 				if (shortestDistance > currentDistance) {
@@ -209,16 +177,8 @@ public class Algorithm {
 			}
 		}
 
-		String s = "";
-		for (int k : shortestPath) {
-			s += (char) (k + 65);
-		}
-		System.out.println("shortest path: " + s + " with a distance of " + shortestDistance);
-
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		timeTaken = totalTime / 1000.0;
-		
-		System.out.println("The time taken to run the program is " + timeTaken + " seconds");
 	}
 }

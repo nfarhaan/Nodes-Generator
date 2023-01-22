@@ -1,6 +1,4 @@
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class Graph {
@@ -8,14 +6,13 @@ public class Graph {
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();
 	
-	public ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();
+	public ArrayList<Node[]> shortestNodeConnection = new ArrayList<Node[]>();
 
 	public void generateNodes(int numberOfNodes, int xLimit, int yLimit) {
 		nodes.clear();
-		nodeConnections.clear();
+		shortestNodeConnection.clear();
 
 		Random random = new Random();
-		 random.setSeed(666);
 		ArrayList<int[]> usedCoordinates = new ArrayList<int[]>();
 
 		for (int i = 0; i < numberOfNodes; i++) {
@@ -48,13 +45,11 @@ public class Graph {
 		}
 
 		createAllPossibleLinks();
-		// _showNodes();
-		// _linkNodes();
 	}
 
 	private String getNodeName(int index) {
 		String name = "";
-		index++; // all loops starts at 0 hence we increment to 1 for code to work properly
+		index++;
 
 		while (index > 0) {
 			int r = index % 26;
@@ -81,22 +76,9 @@ public class Graph {
 	}
 
 	public void linkNodes(int[] order) {
-		nodeConnections.clear();
+		shortestNodeConnection.clear();
 		for (int i = 0; i < order.length - 1; i++) {
-			nodeConnections.add(new Node[] { nodes.get(order[i]), nodes.get(order[i + 1]) });
-		}
-	}
-
-	private void _linkNodes() {
-		nodeConnections.clear();
-		for (int i = 0; i < nodes.size() - 1; i++) {
-			nodeConnections.add(new Node[] { nodes.get(i), nodes.get(i + 1) });
-		}
-	}
-
-	private void _showNodes() {
-		for (int i = 0; i < nodes.size(); i++) {
-			System.out.println(nodes.get(i).nodeName + "-" + nodes.get(i).posX + "," + nodes.get(i).posY);
+			shortestNodeConnection.add(new Node[] { nodes.get(order[i]), nodes.get(order[i + 1]) });
 		}
 	}
 }
