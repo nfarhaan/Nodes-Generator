@@ -162,7 +162,24 @@ public class DisplayPanel extends JFrame {
         // When randomize button is pressed, all nodes will be randomly generated
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-            	int numNodes = Integer.parseInt(size_Field.getText());
+            	int numNodes = 2;
+            	
+            	// Validation to allow only numeric values that are greater than 2
+            	try {
+            		numNodes = Integer.parseInt(size_Field.getText());	
+            		if(numNodes < 2) {
+            			throw new Exception("Number of nodes should at least 2");
+            		}
+				} catch (Exception e) {
+					sidePanel.remove(size_Field);
+					
+					JTextField tempText = new JTextField("2");
+					tempText.setBounds(size_Field.getBounds());
+					size_Field = tempText;
+					
+					sidePanel.add(size_Field);
+					numNodes = 2;
+				}
 
                 graph.generateNodes(numNodes, screenWidth - sidePanelWidth - screenBorder, screenHeight - screenBorder);
 
