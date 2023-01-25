@@ -13,10 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+// This class is responsible for the program window 
 public class DisplayPanel extends JFrame {
 
+	// Variables for window dimensions
     private int screenBorder, sidePanelWidth, screenWidth, screenHeight;
 
+    // Variables for UI elements of the program 
     private JTextField size_Field;
     private JButton solve, randomize;
     private JCheckBox displayAllPossiblePath, displayShortestPath, displayCoordinates;
@@ -24,6 +27,7 @@ public class DisplayPanel extends JFrame {
     
     GridPanel grid;
 
+    // Constructor of the class to display the GUI window
     DisplayPanel(Dimension screenDimension, int _sidePanelWidth, int border) {
 
         screenBorder = border;
@@ -36,8 +40,9 @@ public class DisplayPanel extends JFrame {
         Font normalFont = new Font("SANS_SERIF", Font.PLAIN, 15);
         Color color = Color.white;
 
-        grid = new GridPanel(screenWidth - sidePanelWidth, screenHeight);
+        grid = new GridPanel(screenWidth - sidePanelWidth, screenHeight); 
 
+        // Set properties of the window frame
         this.setTitle("Shortest Path Finder");
 
         this.setSize(screenWidth, screenHeight);
@@ -47,9 +52,12 @@ public class DisplayPanel extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Set the limits of the grid
         grid.setBounds(0, 0, screenWidth - sidePanelWidth, screenHeight);
         this.add(grid);
         
+        // Setting properties of the side panel 
+        // and the different elements
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(color);
         sidePanel.setBounds(screenWidth - sidePanelWidth, 0, screenWidth, screenHeight);
@@ -69,18 +77,21 @@ public class DisplayPanel extends JFrame {
         displayOptions.setFont(titleFont);
         sidePanel.add(displayOptions);
 
+        // Display coordinates checkbox
         displayCoordinates = new JCheckBox("Display the coordinates of the nodes");
         displayCoordinates.setSelected(true);
         displayCoordinates.setBackground(color);
         displayCoordinates.setBounds(20, 100, 300, 20);
         sidePanel.add(displayCoordinates);
 
+        // Show all possible paths checkbox
         displayAllPossiblePath = new JCheckBox("Show all possible paths");
         displayAllPossiblePath.setSelected(true);
         displayAllPossiblePath.setBackground(color);
         displayAllPossiblePath.setBounds(20, 125, 200, 20);
         sidePanel.add(displayAllPossiblePath);
 
+        // Display shortest path checkbox
         displayShortestPath = new JCheckBox("Display the shortest path");
         displayShortestPath.setSelected(true);
         displayShortestPath.setBackground(color);
@@ -92,10 +103,12 @@ public class DisplayPanel extends JFrame {
         controls.setFont(titleFont);
         sidePanel.add(controls);
 
+        // The randomize buttons
         randomize = new JButton("Randomize");
         randomize.setBounds(20, 210, 100, 20);
         sidePanel.add(randomize);
 
+        // The solve button
         solve = new JButton("Solve");
         solve.setBounds(130, 210, 100, 20);
         sidePanel.add(solve);
@@ -105,16 +118,19 @@ public class DisplayPanel extends JFrame {
         shortestPathTitle.setFont(titleFont);
         sidePanel.add(shortestPathTitle);
         
+        // Show the distance of the shortest path
         distanceDisplay = new JLabel("DISTANCE: NOT YET COMPUTED");
         distanceDisplay.setBounds(20, 280, 300, 20);
         distanceDisplay.setFont(normalFont);
         sidePanel.add(distanceDisplay);
         
+        // Show the time taken to calculate the shortest path
         timeDisplay = new JLabel("TIME TAKEN: NOT YET COMPUTED");
         timeDisplay.setBounds(20, 300, 300, 20);
         timeDisplay.setFont(normalFont);
         sidePanel.add(timeDisplay);
         
+        // Show the nodes consisting the shortest path
         shortestPathListDisplay = new JLabel("PATH: NOT YET COMPUTED");
         shortestPathListDisplay.setBounds(20, 300, 300, 60);
         shortestPathListDisplay.setFont(normalFont);
@@ -122,25 +138,28 @@ public class DisplayPanel extends JFrame {
         
         Graph graph = new Graph();
 
+        // Will display all possible paths when checkbox is checked
         displayAllPossiblePath.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                System.out.println(displayAllPossiblePath.isSelected());
                 grid.setShowAllPath(displayAllPossiblePath.isSelected());
             }
         });
 
+        // Will display the shortest path when checkbox is checked
         displayShortestPath.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 grid.setShowShortestPath(displayShortestPath.isSelected());
             }
         });
 
+        // Will display node name and coordinates when checkbox is checked
         displayCoordinates.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 grid.setShowCoordinates(displayCoordinates.isSelected());
             }
         });
 
+        // When randomize button is pressed, all nodes will be randomly generated
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
             	int numNodes = Integer.parseInt(size_Field.getText());
@@ -161,14 +180,16 @@ public class DisplayPanel extends JFrame {
         		toggleInputs(false);
         	}
         	
+        	// Will only execute when the mouse is released
         	public void mouseReleased(MouseEvent e) {  
         		grid.clearGrid();
         		grid.plotGraph(graph);
-                Algorithm.permute(graph);
+                Algorithm.permute(graph);	// Call the function to calculate the shortes path
                 graph.linkNodes(Algorithm.shortestPath);
                 
-                grid.drawLine(graph);
+                grid.drawLine(graph);	// Link all the nodes of the shortest path
                 
+                // Update the texts to show relevant information
                 String shortestDistance = "DISTANCE: " + Math.round(Algorithm.shortestDistance * 100.0) / 100.0;
                 String timeTaken = "TIME TAKEN: " + Algorithm.timeTaken + " S";
                 String shortestPath = "PATH: " + graph.shortestNodeConnection.get(0)[0].nodeName;
@@ -176,6 +197,7 @@ public class DisplayPanel extends JFrame {
                 	shortestPath += " " + graph.shortestNodeConnection.get(i)[1].nodeName;
                 }
                 
+                // Clear the texts
                 sidePanel.remove(distanceDisplay);
                 sidePanel.remove(shortestPathListDisplay);
                 sidePanel.remove(timeDisplay);
@@ -184,6 +206,7 @@ public class DisplayPanel extends JFrame {
                 shortestPathListDisplay = setText(shortestPathListDisplay, shortestPath, normalFont);
                 timeDisplay = setText(timeDisplay, timeTaken, normalFont);
                 
+                // Add the texts to show relevant information
                 sidePanel.add(distanceDisplay);
                 sidePanel.add(shortestPathListDisplay);
                 sidePanel.add(timeDisplay);
@@ -198,6 +221,7 @@ public class DisplayPanel extends JFrame {
         sidePanel.repaint();
     }
     
+    // Function to set text
     private JLabel setText(JLabel label, String text, Font font) {
     	JLabel tempLabel = new JLabel(text);
     	tempLabel.setBounds(label.getBounds());
@@ -205,6 +229,7 @@ public class DisplayPanel extends JFrame {
         return tempLabel;
     }
     
+    // Enable/Disable the inputs based on status
     private void toggleInputs(boolean status) {
     	size_Field.setEnabled(status);
         solve.setEnabled(status);
