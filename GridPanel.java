@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-// This class is responsible for displaying the graphical elements
+// This class is responsible for displaying the the graph part (where the nodes and connections are rendered)
 public class GridPanel extends JPanel{
 
-	private ArrayList<Node> nodes = new ArrayList<Node>();	// Store all the generated nodes
-	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();	// Store all the links between the generated nodes
-	private ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();	// Store the connections of the shortest path
+	private ArrayList<Node> nodes = new ArrayList<Node>();	// Store all the nodes that needs to be rendered
+	public ArrayList<Node[]> allPossibleNodeConnections = new ArrayList<Node[]>();	// Store all the links between the nodes that needs to be rendered
+	private ArrayList<Node[]> nodeConnections = new ArrayList<Node[]>();	// Store the connections of the shortest path that needs to be rendered
 	
 	// Variables for the checkboxes
 	private boolean showShortestPath, showAllPath, showCoordinates;
