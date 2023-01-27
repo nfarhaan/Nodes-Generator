@@ -15,9 +15,7 @@ public class Graph {
 		nodes.clear();
 		shortestNodeConnection.clear();
 
-		Random random = new Random();
-		random.setSeed(666);
-		
+		Random random = new Random();		
 		ArrayList<int[]> usedCoordinates = new ArrayList<int[]>();	// Store already generated nodes to avoid duplicates
 
 		for (int i = 0; i < numberOfNodes; i++) {	// Will loop for specified number of node to generate
