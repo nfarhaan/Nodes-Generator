@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-// This class is responsible for the nodes and paths
 public class Graph {
 
 	public ArrayList<Node> nodes = new ArrayList<Node>();	// Store all the generated nodes
@@ -52,7 +51,7 @@ public class Graph {
 	}
 
 	// Function to generate names for nodes in ascending order
-	// If name is greater than A the it continues on to AA, AB, AC,...
+	// If name is greater than Z then it continues on to AA, AB, AC,...
 	private String getNodeName(int index) {
 		String name = "";
 		index++;

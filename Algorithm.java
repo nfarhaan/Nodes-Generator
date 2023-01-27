@@ -4,7 +4,7 @@ import java.util.Collections;
 
 // This class is responsible for the calculations of the shortest path
 public class Algorithm {
-	public static int[] shortestPath;	// Store the indexes of the shortest path 
+	public static int[] shortestPath;	// Store the order in which the nodes must be arranged to get the shortest path
 	public static double shortestDistance = 99999999;	// Store the shortest distance
 	public static double timeTaken = 0;	// Store the time taken to execute the algorithm
 	
@@ -23,8 +23,8 @@ public class Algorithm {
 	private static void reverse(int indexPool[], int l, int h) {
 		while (l < h) {
 			swap(indexPool, l, h);
-			l++;
 			h--;
+			l++;
 		}
 	}
 
@@ -147,6 +147,9 @@ public class Algorithm {
 	}
 	
 	// Function to permute all nodes in lexicographical order
+	// REFERENCE
+	// https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
+	// https://www.geeksforgeeks.org/lexicographic-permutations-of-string/
 	static void permute(Graph graph) {
 		shortestDistance = 99999999;
 
